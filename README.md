@@ -1,7 +1,7 @@
 ![Doppelgänger Logo](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/dop_logo.png)
 
 # 
-Doppelgänger is firmware that runs on ESP-32 devices that can be embedded within commercially available RFID readers with the intent of capturing access control card data while performing physical security assessments. Doppelgänger keeps the operator's ease of access, maintenance, and operational communications in mind.
+Doppelgänger is firmware that runs on ESP32 devices that can be embedded within commercially available RFID readers with the intent of capturing access control card data while performing physical security assessments. Doppelgänger keeps the operator's ease of access, maintenance, and operational communications in mind.
 
 ## Background
 
