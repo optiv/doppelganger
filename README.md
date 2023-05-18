@@ -1,4 +1,4 @@
-![Doppelgänger Logo](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/dop_logo.png)
+![Doppelgänger Logo](https://github.com/optiv/doppelganger/blob/main/git_images/dop_logo.png)
 
 # 
 Doppelgänger is firmware that runs on ESP32 devices that can be embedded within commercially available RFID readers with the intent of capturing access control card data while performing physical security assessments. Doppelgänger keeps the operator's ease of access, maintenance, and operational communications in mind.
@@ -60,7 +60,7 @@ For setup purposes, I recommend using a computer to configure the device initial
 **Restart** - Self-explanatory 
 **Exit** - Self-explanatory
 
-![WiFi Manager Menu.png](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/wifimanager.jpg)
+![WiFi Manager Menu.png](https://github.com/optiv/doppelganger/blob/main/git_images/wifimanager.jpg)
 
 ## Connecting Doppelgänger to a Mobile Device
 Before selecting **Configure WiFi** in the captive portal, turn on your mobile device's **Personal Hotspot**.
@@ -98,7 +98,7 @@ Ensure that you have the Personal Hotspot menu opened on your iPhone before powe
 
 Here's a quick look at the web application for reference:
 
-![WebApp.png](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/webapp_view.jpg)
+![WebApp.png](https://github.com/optiv/doppelganger/blob/main/git_images/webapp_view.jpg)
 
 ## Debugging
 
@@ -112,8 +112,8 @@ ls /dev/tty.usb*
 screen /dev/tty.usbserial-13440 115200
 ```
 
-![Boot Process](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/boot_process.jpg)
-![Card Handling](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/card_handling.jpg)
+![Boot Process](https://github.com/optiv/doppelganger/blob/main/git_images/boot_process.jpg)
+![Card Handling](https://github.com/optiv/doppelganger/blob/main/git_images/card_handling.jpg)
 
 ## Flashing the device
 
@@ -185,15 +185,15 @@ Below are the wiring diagrams for each reader. As the RFID readers below output 
 
 *Note, you can use either the IoT Redboard or the Thing Plus C, the diagrams are merely an example. However, Indala readers are tight on space, so I recommend the Thing Plus C.*
 
-![MaxiProx Wiring](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/maxiprox_wiring.jpg)
+![MaxiProx Wiring](https://github.com/optiv/doppelganger/blob/main/git_images/maxiprox_wiring.jpg)
 
-![ICLASS SE Wiring](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/iclass_se_wiring.jpg)
+![ICLASS SE Wiring](https://github.com/optiv/doppelganger/blob/main/git_images/iclass_se_wiring.jpg)
 
-![Indala Wiring](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/indala_wiring.jpg)
+![Indala Wiring](https://github.com/optiv/doppelganger/blob/main/git_images/indala_wiring.jpg)
 
-![SE Installation](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/se_install.jpg)
+![SE Installation](https://github.com/optiv/doppelganger/blob/main/git_images/se_install.jpg)
 
-![Indala Wiring](https://github.com/tweathers-sec/doppelganger/blob/main/git_images/indala_install.jpg)
+![Indala Wiring](https://github.com/optiv/doppelganger/blob/main/git_images/indala_install.jpg)
 
 ### Credit
 Special thanks to the following folks for doing all of the heavy lifting with the original research,
