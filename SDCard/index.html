@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>doppelgänger RFID</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+<ul class="navigation">
+  <li><a href="./config.html">Reset</a></li>
+  <li><a href="./notifications.html">Notifications</a></li>
+  <li><a href="./cards.csv">Download CSV</a></li>
+  <li><a href="./">Reload</a></li>
+</ul>
+
+<body>
+  <div class="wrapper">
+    <table class="content-table">
+      <tr>
+        <th class="content-head" data-column="BL" data-order="desc">
+          Bit Length
+        </th>
+        <th class="content-head" data-column="FC" data-order="desc">
+          Facility Code
+        </th>
+        <th class="content-head" data-column="CN" data-order="desc">
+          Card Number
+        </th>
+      </tr>
+      <tbody id="cardTable"></tbody>
+    </table>
+  </div>
+  <script src="js/sort.js"></script>
+</body>
+
+<footer class="footer">
+  <img src="img/doppelganger.png" alt="description of your image"
+    onclick="location.href='https://github.com/tweathers-sec/doppelganger';" style="cursor: pointer;">
+</footer>
+
+</html>

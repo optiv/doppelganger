@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>doppelgänger RFID</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="navigation">
+                <li><a href="./index.html">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+    <form class="notificationForm">
+        <div class="row">
+            <div class="column">
+                <div class="input-group">
+                    <label for="enable_email">Notifications:</label>
+                    <select id="enable_email" name="enable_email">
+                        <option value="false">Disable</option>
+                        <option value="true">Enable</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="smtp_host">SMTP Host:</label>
+                    <input type="text" id="smtp_host" name="smtp_host" value="smtp.<domain>.com">
+                </div>
+                <div class="input-group">
+                    <label for="smtp_port">SMTP Port:</label>
+                    <input type="text" id="smtp_port" name="smtp_port" value="465">
+                </div>
+                <div class="input-group">
+                    <label for="smtp_user">Username:</label>
+                    <input type="text" id="smtp_user" name="smtp_user" value="<sender_email>@<domain>.com">
+                </div>
+                <div class="input-group">
+                    <label for="smtp_pass">Password:</label>
+                    <input type="password" id="smtp_pass" name="smtp_pass">
+                </div>
+                <div class="input-group">
+                    <label for="smtp_recipient">Recipient:</label>
+                    <input type="text" id="smtp_recipient" name="smtp_recipient"
+                        value="<phonenumber>@<carrierdomain>.com">
+                </div>
+                <div class="button-container">
+                    <button type="button" onclick="main();">Update Preferences</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+    <div id="output"></div>
+    <script src="js/notifications.js"></script>
+
+</body>
+<footer class="footer">
+    <img src="img/doppelganger.png" alt="description of your image"
+        onclick="location.href='https://github.com/tweathers-sec/doppelganger';" style="cursor: pointer;">
+</footer>
+
+</html>

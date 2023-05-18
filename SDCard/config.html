@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>doppelgänger RFID</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+
+<header>
+    <nav>
+        <ul class="navigation">
+            <li><a href="./index.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+
+<body>
+    <main>
+        <form class="configForm">
+            <div class="button-container">
+                <button class="inner" type="button" onclick="eraseCards()">Erase Stored Card Data</button>
+            </div>
+            <div class="button-container">
+                <button class="inner" type="button" onclick="restoreConfig()">Clear Notification Settings</button>
+            </div>
+            <div class="button-container">
+                <button class="inner" type="button" onclick="resetWireless()">Clear Wireless Credentials</button>
+            </div>
+            <div class="button-container">
+                <button class="inner" type="button" onclick="fullReset()">Full Device Reset</button>
+            </div>
+        </form>
+        <br>
+        <script src="js/device.js"></script>
+    </main>
+</body>
+
+<footer class="footer">
+    <img src="img/doppelganger.png" alt="description of your image"
+        onclick="location.href='https://github.com/tweathers-sec/doppelganger';" style="cursor: pointer;">
+</footer>
+
+</html>

@@ -1,0 +1,8 @@
+{
+  "enable_email": false,
+  "smtp_host": "smtp.<domain>.com",
+  "smtp_port": "465",
+  "smtp_user": "<sender_email>@<domain>.com",
+  "smtp_pass": "AppPassword",
+  "smtp_recipient": "<phonenumber>@<carrierdomain>.com"
+}
