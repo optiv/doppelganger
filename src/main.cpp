@@ -223,7 +223,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
       delay(1000);
       File jsonCards = SD.open(CARDS_JSON_FILE, "w");
       jsonCards.close();
-      Serial.println("[WEBSOCKET] Stored cards data has been cleared.");
+      Serial.println("[WEBSOCKET] Stored card data has been cleared.");
     }
 
     if (restore_config)
@@ -738,6 +738,7 @@ void getFacilityCodeCardNumber()
   switch (bitCount)
   {
 
+  // Standard HID H10301 26-bit
   case 26:
     for (i = 1; i < 9; i++)
     {
@@ -752,6 +753,7 @@ void getFacilityCodeCardNumber()
     }
     break;
 
+  // Generic HID 33-bit
   case 33:
     for (i = 1; i < 8; i++)
     {
@@ -766,6 +768,7 @@ void getFacilityCodeCardNumber()
     }
     break;
 
+  // Generic HID H10306 34-bit
   case 34:
     for (i = 1; i < 17; i++)
     {
@@ -780,6 +783,7 @@ void getFacilityCodeCardNumber()
     }
     break;
 
+  // HID Corporate 1000 35-bit
   case 35:
     for (i = 2; i < 14; i++)
     {
@@ -788,6 +792,21 @@ void getFacilityCodeCardNumber()
     }
 
     for (i = 14; i < 34; i++)
+    {
+      cardNumber <<= 1;
+      cardNumber |= databits[i];
+    }
+    break;
+
+  // HID H10304 37-bit
+  case 37:
+    for (i = 2; i < 17; i++)
+    {
+      facilityCode <<= 1;
+      facilityCode |= databits[i];
+    }
+
+    for (i = 18; i < 36; i++)
     {
       cardNumber <<= 1;
       cardNumber |= databits[i];

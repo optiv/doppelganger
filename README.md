@@ -169,17 +169,19 @@ Only attempt to build this device if you know what you're doing. The developer i
 
 The following additional items are recommended to build a complete system:
 
-| Item                                         | Qty |
-| -------------------------------------------- | --- |
-| SparkFun IoT Redboard or Thing Plus C        | 1   |
-| Powerbank (Omni Mobile 25600mah recommended) | 1   |
-| Adhesive Standoffs 0.180" Height             | 4   |
-| 1.5' USB-C to USB-A Cable                    | 1   |
-| 8GB Micro SD Card (Use a Trusted Brand)      | 1   |
-| 5.5x2.1mm Power Cable (Male)                 | 1   |
-| SparkFun Logic Level Converter               | 1   |
-| 22 awg Solid Core Wire (Six Color Pack)      | 1   |
-| 1" Outdoor Ziptie Mounts and Zipties         | 2   |
+| Item                                                        | Qty |
+| ----------------------------------------------------------- | --- |
+| SparkFun IoT Redboard or Thing Plus C                       | 1   |
+| Powerbank (Omni Mobile 25600mah recommended)                | 1   |
+| Adhesive Standoffs 0.180" Height                            | 4   |
+| 1.5' USB-C to USB-A Cable                                   | 1   |
+| 8GB Micro SD Card (Use a Trusted Brand)                     | 1   |
+| 5.5x2.1mm Power Cable (Male)                                | 1   |
+| SparkFun Logic Level Converter                              | 1   |
+| 22 awg Solid Core Wire (Six Color Pack)                     | 1   |
+| 1" Outdoor Zip Tie Mounts and Zip Ties                      | 2   |
+| 2.54mm 0.1" Pitch PCB Mount Screw Terminal Block Connectors | 1   |
+
 
 Below are the wiring diagrams for each reader. As the RFID readers below output a 5V signal, the use of a logic level converter is required to adapt the signal to 3.3V. 
 
