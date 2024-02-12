@@ -163,39 +163,40 @@ Only attempt to build this device if you know what you're doing. The developer i
 * HID ICLASS SE R90 940NTTEK00000 (this model has legacy support enabled)
 * HID Indala ASR-620++ (No Longer Manufactured by HID)
 
-**Option #1: Plug-n-Play**
+### Option #1: Plug-n-Play
 Install using the fully assembled & flashed doppelgänger longrange breakout board from https://store.physicalexploit.com/. The langrange breakout board comes with everything that you need. Just attached the power supply (7.5-15VDC) and four wires to your reader.
 
+**Included**
 * SparkFun Thing Plus C 
 * 7.5-15VDC Voltage Regulator
 * 5V to 3.3V Logic divider
 * Adhesive backed mounting bracket
 
-Not Included
+**Not Included**
 * Wiring for reader
 * Power cable
 
-**Option #2: Doppelgagner PCB (DIY)**
+### Option #2: Doppelgagner PCB (DIY)
 Install using the DIY doppelgänger longrange breakout board from https://store.physicalexploit.com/. The langrange breakout board comes with everything that you need. Just attached the power supply (7.5-15VDC) and four wires to your reader.
 
-Included and pre-soldered
+**Included and pre-soldered**
 * 7.5-15VDC Voltage Regulator
 * 5V to 3.3V Logic divider
 
-Included but not pre-soldered
+**Included but not pre-soldered**
 * 2 x screw terminals
 * Pin headers
 
-Also included
+**Also included**
 * Adhesive backed mounting bracket 
   
-Not Included
+**Not Included**
 * SparkFun Thing Plus C 
 * Wiring for reader
 * Power cable
 
 
-**Option #3: TRUE DIY**
+### Option #3: TRUE DIY
 The following additional items are recommended to build a complete system:
 
 | Item                                                        | Qty |
