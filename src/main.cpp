@@ -1,5 +1,5 @@
 /*
- * Doppelgänger RFID Suite || Version 1.0
+ * Doppelgänger RFID Suite || Version 2.0
  *
  * Written by Travis Weathers
  * GitHub: https://github.com/tweathers-sec/
@@ -35,7 +35,6 @@
 ///////////////////////////////////////////////////////
 // Load the libraries that we require
 #include <FS.h>
-#include <SD.h>
 #include <LittleFS.h>
 #include <ArduinoJson.h>
 #include <WiFiManager.h>
@@ -49,9 +48,9 @@
 // Wiegand Configurations
 #define MAX_BITS 100           // Max number of bits
 #define WEIGAND_WAIT_TIME 3000 // Time to wait for another weigand pulse.
-#define DATA0 26               // Pin Header for DATA0 Connetion (IoT Redboard = 26 | Thing Plus C = 25)
-#define DATA1 27               // Pin Header for DATA1 Connetion (IoT Redboard = 27 | Thing Plus C = 26)
-const int C_PIN_LED = 18;      // LED indicator for config mode (IOT Redboard = 18 | Thing Plus C = 13)
+#define DATA0 26               // Pin Header for DATA0 Connetion (IoT Redboard = 26 | Thing Plus C = 26)
+#define DATA1 25               // Pin Header for DATA1 Connetion (IoT Redboard = 27 | Thing Plus C = 25)
+const int C_PIN_LED = 13;      // LED indicator for config mode (IOT Redboard = 18 | Thing Plus C = 13)
 
 unsigned char databits[MAX_BITS]; // Stores all of the data bits
 volatile unsigned int bitCount = 0;
@@ -70,14 +69,16 @@ volatile unsigned long cardChunk2 = 0;
 ///////////////////////////////////////////////////////
 // File Configuration
 #define FORMAT_LITTLEFS_IF_FAILED true
-#define JSON_CONFIG_FILE "/config.json"
-#define CARDS_JSON_FILE "/cards.json"
-#define CARDS_CSV_FILE "/cards.csv"
+#define JSON_CONFIG_FILE "/www/config.json"
+#define CARDS_CSV_FILE "/www/cards.csv"
 
 ///////////////////////////////////////////////////////
 // WiFiManager Configurations
-#define defaultSSID "doppelgänger"
-#define defaultPASS "UndertheRadar"
+const char *defaultPASS = "UndertheRadar";
+#define prefixSSID "doppelgänger_"
+
+// #define defaultSSID "doppelgänger"
+// #define defaultPASS "UndertheRadar"
 #define portalTimeout 120 // Device reboots after X seconds if no configuration is entered
 #define connectTimeout 30 // Enters configuration mode if device can't find previously stored AP in X seconds
 #define LED_ON HIGH
@@ -117,7 +118,7 @@ void setDefaultConfig()
 {
   Serial.println("======================================");
   Serial.println("[CONFIG] Writing the default configuration...");
-  StaticJsonDocument<300> json;
+  JsonDocument json;
 
   json["enable_email"] = "false";
   json["smtp_host"] = "smtp.<domain>.com";
@@ -149,7 +150,7 @@ void readConfig()
   if (loadConfig)
   {
     Serial.println("[CONFIG] Loading notification preferences...");
-    StaticJsonDocument<300> json;
+    JsonDocument json;
     DeserializationError error = deserializeJson(json, loadConfig);
     serializeJsonPretty(json, Serial);
     if (!error)
@@ -194,8 +195,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
     String message = String((char *)(payload));
     Serial.println(message);
 
-    // DynamicJsonDocument doc(256);
-    StaticJsonDocument<300> doc;
+    JsonDocument doc;
     DeserializationError error = deserializeJson(doc, message);
 
     if (error)
@@ -213,16 +213,12 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 
     if (erase_cards)
     {
-      Serial.println("[WEBSOCKET] Clearing stored cards from the SD Card...");
-      SD.remove(CARDS_CSV_FILE);
+      Serial.println("[WEBSOCKET] Clearing stored cards from the device...");
+      LittleFS.remove(CARDS_CSV_FILE);
       delay(1000);
-      File csvCards = SD.open(CARDS_CSV_FILE, "w");
+      File csvCards = LittleFS.open(CARDS_CSV_FILE, "w");
       csvCards.close();
 
-      SD.remove(CARDS_JSON_FILE);
-      delay(1000);
-      File jsonCards = SD.open(CARDS_JSON_FILE, "w");
-      jsonCards.close();
       Serial.println("[WEBSOCKET] Stored card data has been cleared.");
     }
 
@@ -250,18 +246,13 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
 
     if (factory_reset)
     {
-      Serial.println("[WEBSOCKET] Restoring factory defaults...");
-      SD.remove(CARDS_CSV_FILE);
+      Serial.println("[WEBSOCKET] Clearing stored cards from the device...");
+      LittleFS.remove(CARDS_CSV_FILE);
       delay(1000);
-      File csvCards = SD.open(CARDS_CSV_FILE, "w");
+      File csvCards = LittleFS.open(CARDS_CSV_FILE, "w");
       csvCards.close();
-      delay(1000);
 
-      SD.remove(CARDS_JSON_FILE);
-      delay(1000);
-      File jsonCards = SD.open(CARDS_JSON_FILE, "w");
-      jsonCards.close();
-      delay(1000);
+      Serial.println("[WEBSOCKET] Stored card data has been cleared.");
 
       LittleFS.remove(JSON_CONFIG_FILE);
       delay(1000);
@@ -300,7 +291,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
       readConfig();
     }
     doc.clear();
-    // doc.shrinkToFit();
   }
 }
 
@@ -383,6 +373,14 @@ void setup()
   ///////////////////////////////////////////////////////
   // WiFiManager configurations & setup
   ///////////////////////////////////////////////////////
+  uint8_t mac[6];
+  WiFi.macAddress(mac);
+
+  // Set the unique SSID
+  char lastFourDigits[5];
+  sprintf(lastFourDigits, "%02X%02X", mac[4], mac[5]);
+  String defaultSSID = prefixSSID + String(lastFourDigits);
+
   wifiManager.setHostname("rfid");
   wifiManager.setConfigPortalTimeout(portalTimeout);
   wifiManager.setMinimumSignalQuality(25);
@@ -401,7 +399,9 @@ void setup()
 
   Serial.println("======================================");
   digitalWrite(C_PIN_LED, LED_ON);
-  if (!wifiManager.autoConnect(defaultSSID, defaultPASS))
+
+  // if (!wifiManager.autoConnect(defaultSSID, defaultPASS))
+  if (!wifiManager.autoConnect(defaultSSID.c_str(), defaultPASS))
   {
     Serial.println("[WIFI] Failed to connect to stored Wireless network and hit timeout");
     delay(3000);
@@ -437,43 +437,6 @@ void setup()
   Serial.println(WiFi.RSSI());
 
   ///////////////////////////////////////////////////////
-  // Initialize the SDCard
-  ///////////////////////////////////////////////////////
-  Serial.println("======================================");
-  Serial.println("[SDCard] Initializing the SD card...");
-
-  if (!SD.begin(5))
-  {
-    Serial.println("[SDCard] Card Mount Failed");
-    return;
-  }
-  uint8_t cardType = SD.cardType();
-
-  if (cardType == CARD_NONE)
-  {
-    Serial.println("[SDCard] No SD card attached");
-    return;
-  }
-
-  Serial.print("[SDCard] Card Type: ");
-  if (cardType == CARD_MMC)
-  {
-    Serial.println("MMC");
-  }
-  else if (cardType == CARD_SD)
-  {
-    Serial.println("SDSC");
-  }
-  else if (cardType == CARD_SDHC)
-  {
-    Serial.println("SDHC");
-  }
-  else
-  {
-    Serial.println("UNKNOWN");
-  }
-
-  ///////////////////////////////////////////////////////
   // Standup the webserver
   ///////////////////////////////////////////////////////
   Serial.println("======================================");
@@ -482,7 +445,7 @@ void setup()
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*");
 
-  server.serveStatic("/", SD, "/").setDefaultFile("index.html");
+  server.serveStatic("/", LittleFS, "/www/").setDefaultFile("index.html");
 
   server.onNotFound([](AsyncWebServerRequest *request)
                     {
@@ -567,7 +530,7 @@ void sendCardsEmail()
   SMTP_Message message;
 
   // Message Headers
-  message.sender.name = defaultSSID;
+  message.sender.name = mdnsHost;
   message.sender.email = smtp_user;
   message.subject = "!! Data Received !!";
   message.addRecipient("RFID Notification", smtp_recipient);
@@ -615,51 +578,16 @@ void smtpCallback(SMTP_Status status)
 }
 
 ///////////////////////////////////////////////////////
-// SDCard - Card logging functions
-
-// JSON parser to store card data for parsing by the webserver
-void writeJSONWeb()
+// Card logging
+void writeCSVLog()
 {
-  Serial.print("[SDCARD] Logging card data to ");
-  Serial.println(CARDS_JSON_FILE);
-
-  // DynamicJsonDocument data(300);
-  StaticJsonDocument<2048> data;
-
-  File jsonCards = SD.open(CARDS_JSON_FILE, "a");
-
-  if (!jsonCards)
-  {
-    Serial.print("[SDCARD] There was an error opening ");
-    Serial.println(CARDS_JSON_FILE);
-    return;
-  }
-  else
-  {
-    File jsonCards = SD.open(CARDS_JSON_FILE, "r");
-    deserializeJson(data, jsonCards);
-    jsonCards.close();
-
-    JsonObject obj = data.createNestedObject();
-    obj["BL"] = bitCount;
-    obj["FC"] = facilityCode;
-    obj["CN"] = cardNumber;
-
-    jsonCards = SD.open(CARDS_JSON_FILE, "w");
-    serializeJson(data, jsonCards);
-    jsonCards.close();
-  }
-}
-
-void writeSDLog()
-{
-  Serial.print("[SDCARD] Logging card data to ");
+  Serial.print("[CARD LOG] Logging card data to ");
   Serial.println(CARDS_CSV_FILE);
-  File csvCards = SD.open(CARDS_CSV_FILE, "a");
+  File csvCards = LittleFS.open(CARDS_CSV_FILE, "a");
 
   if (!csvCards)
   {
-    Serial.print("[SDCARD] There was an error opening ");
+    Serial.print("[CARD LOG] There was an error opening ");
     Serial.println(CARDS_CSV_FILE);
     return;
   }
@@ -670,9 +598,9 @@ void writeSDLog()
     csvCards.print(", Hex_Value: ");
     csvCards.print(cardChunk1, HEX);
     csvCards.print(cardChunk2, HEX);
-    csvCards.print(", Facility_Code = ");
+    csvCards.print(", Facility_Code: ");
     csvCards.print(facilityCode, DEC);
-    csvCards.print(", Card_Number = ");
+    csvCards.print(", Card_Number: ");
     csvCards.print(cardNumber, DEC);
     csvCards.print(", BIN: ");
     for (int i = 19; i >= 0; i--)
@@ -707,11 +635,12 @@ void consoleLog()
   }
   else
   {
-    Serial.println("[CARD READ] ERROR: Bad Card Read! Card data won't be logged.");
+    Serial.println("[CARD READ] ERROR: Bad Card Read! Card data won't be added to the web log.");
     Serial.println("[CARD READ] POSSIBLE ISSUES:");
     Serial.println("[CARD READ]    (1) Card passed through the reader too quickly");
     Serial.println("[CARD READ]    (2) Loose GPIO connection(s)");
     Serial.println("[CARD READ]    (3) Electromagnetic interference (EMI)");
+    Serial.println("[CARD READ]    (4) No available parser for card. Data will be stored within the CSV file.");
     Serial.println("[CARD READ] Below is the bad data:");
     Serial.print("[CARD READ] Card Bits: ");
     Serial.print(bitCount);
@@ -747,6 +676,36 @@ void getFacilityCodeCardNumber()
     }
 
     for (i = 9; i < 25; i++)
+    {
+      cardNumber <<= 1;
+      cardNumber |= databits[i];
+    }
+    break;
+
+    // Indala 27-bit (Not Tested)
+  case 27:
+    for (i = 1; i < 13; i++)
+    {
+      facilityCode <<= 1;
+      facilityCode |= databits[i];
+    }
+
+    for (i = 14; i < 27; i++)
+    {
+      cardNumber <<= 1;
+      cardNumber |= databits[i];
+    }
+    break;
+
+  // Indala 29-bit (Not Tested)
+  case 29:
+    for (i = 1; i < 13; i++)
+    {
+      facilityCode <<= 1;
+      facilityCode |= databits[i];
+    }
+
+    for (i = 14; i < 29; i++)
     {
       cardNumber <<= 1;
       cardNumber |= databits[i];
@@ -1155,16 +1114,17 @@ void loop()
     getFacilityCodeCardNumber();
     consoleLog();
 
-    // Only send an e-mail and log card data on valid card reads
+    // Only send an e-mail and add data to web log on valid card reads
     if (facilityCode > 0 && cardNumber > 0)
     {
-      writeJSONWeb();
-      writeSDLog();
+      // writeJSONWeb();
       if (enable_email)
       {
         sendCardsEmail();
       }
     }
+    // Send all raw data to the CSV file
+    writeCSVLog();
 
     // Cleanup and get ready for the next card
     bitCount = 0;
