@@ -130,7 +130,7 @@ Doppelgänger can be flashed in two ways:
 **Configure the Project**
 * Depending on which SparkFun board you're using, modify the **platformio.ini** file with the correct information:
 ```
-; Uncomment if you're using a SparkFun Thing Plus C
+; Uncomment if you're using a SparkFun Thing Plus C (RECOMENDED)
 ; [env:sparkfun_esp32s2_thing_plus_c]
 ; board = sparkfun_esp32s2_thing_plus_c
 
@@ -140,9 +140,9 @@ board = sparkfun_esp32_iot_redboard
 ```
 * You will also need to update the GPIO information within **main.cpp** based on the SparkFun board that you're using:
 ```
-#define DATA0 26               // Pin Header for DATA0 Connetion (IoT Redboard = 26 | Thing Plus C = 25)
-#define DATA1 27               // Pin Header for DATA1 Connetion (IoT Redboard = 27 | Thing Plus C = 26)
-const int C_PIN_LED = 18;      // LED indicator for config mode (IOT Redboard = 18 | Thing Plus C = 13)
+#define DATA0 26               // Pin Header for DATA0 Connetion (IoT Redboard = 26 | Thing Plus C = 26)
+#define DATA1 25               // Pin Header for DATA1 Connetion (IoT Redboard = 27 | Thing Plus C = 25)
+const int C_PIN_LED = 13;      // LED indicator for config mode (IOT Redboard = 18 | Thing Plus C = 13)
 ```
 
 **Build and Upload the Filesystem:**
@@ -156,17 +156,46 @@ The **config.json** file within the **data** directory will be written to flash 
 * Click the **Checkmark** on the lower ribbon of VSCode. This will build the firmware.
 * Click the **RightArrow** on the lower ribbon of VSCode. This will upload the firmware to the IoT RedBoard.
 
-**Copy WebApp and blank logs to the SDCard:**
-* Attach the MicroSD Card to the computer and erase/format the card to FAT.
-* Drag and drop the contents of the **SDCard directory** to the root of the SD Card. *Note, the prepopulated cards.json file consists of randomly generated test data. Use the Reset function within the web application to clear the data before use.*
-
 ## Wiring Doppelgänger to a RFID Reader
 
 Only attempt to build this device if you know what you're doing. The developer is not responsible for damaged equipment/property, personal injury, or death that may result in exposure to high voltage. Doppelgänger has been tested on the following devices, but it should work on any reader that outputs a Weigand signal:
 * HID MaxiProx 5375AGN00
 * HID ICLASS SE R90 940NTTEK00000 (this model has legacy support enabled)
-* HID Indala ASR-620++
+* HID Indala ASR-620++ (No Longer Manufactured by HID)
 
+**Option #1: Plug-n-Play**
+Install using the fully assembled & flashed doppelgänger longrange breakout board from https://store.physicalexploit.com/. The langrange breakout board comes with everything that you need. Just attached the power supply (7.5-15VDC) and four wires to your reader.
+
+* SparkFun Thing Plus C 
+* 7.5-15VDC Voltage Regulator
+* 5V to 3.3V Logic divider
+* Adhesive backed mounting bracket
+
+Not Included
+* Wiring for reader
+* Power cable
+
+**Option #2: Doppelgagner PCB (DIY)**
+Install using the DIY doppelgänger longrange breakout board from https://store.physicalexploit.com/. The langrange breakout board comes with everything that you need. Just attached the power supply (7.5-15VDC) and four wires to your reader.
+
+Included and pre-soldered
+* 7.5-15VDC Voltage Regulator
+* 5V to 3.3V Logic divider
+
+Included but not pre-soldered
+* 2 x screw terminals
+* Pin headers
+
+Also included
+* Adhesive backed mounting bracket 
+  
+Not Included
+* SparkFun Thing Plus C 
+* Wiring for reader
+* Power cable
+
+
+**Option #3: TRUE DIY**
 The following additional items are recommended to build a complete system:
 
 | Item                                                        | Qty |
@@ -175,7 +204,6 @@ The following additional items are recommended to build a complete system:
 | Powerbank (Omni Mobile 25600mah recommended)                | 1   |
 | Adhesive Standoffs 0.180" Height                            | 4   |
 | 1.5' USB-C to USB-A Cable                                   | 1   |
-| 8GB Micro SD Card (Use a Trusted Brand)                     | 1   |
 | 5.5x2.1mm Power Cable (Male)                                | 1   |
 | SparkFun Logic Level Converter                              | 1   |
 | 22 awg Solid Core Wire (Six Color Pack)                     | 1   |

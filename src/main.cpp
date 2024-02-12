@@ -3,33 +3,8 @@
  *
  * Written by Travis Weathers
  * GitHub: https://github.com/tweathers-sec/
- * Note: I'm not a developer, and the code is likely garbage.
+ * Store: https://store.physicalexploit.com/
  *
- * This project stemmed from the RPi chip shortage, which drove up the cost of RPi Nano W boards.
- * In addtion, there were some limitations with existing tooling that I aimed to mitigate.
- *
- * My intent with this project was to accomplish the following:
- *
- * 1) Reduce the amount of wiring/soldering required to go operational. This was marginally successful.
- * 2) Use modern CoTS equipment that can easily be replaced.
- * 3) The operator can't go into a comms blackhole when connected to the device.
- * 4) Egress for notifications, reducing the need to check for card reads while in the middle of an operation.
- * 5) Simplified WebGUI that only displays Bit Length, Facility Code, and Card Number. Option to download the complete data set(e.g., BL, FC, CC, HEX, BIN).
- * 6) Error handling, so the device doesn't log bad reads, EMI, etc.
- * 7) Easy configuration and reset functionality for team use.
- *
- * Special thanks to the following folks for doing all of the heavy lifting with the original research,
- * development and Wiegand code refreshing. With this project, I merely created a method of delivery that suits my team's needs.
- *
- * Francis Brown of BishopFox - To this day, "RFID Hacking Live Free or RFID Hard" remains my favorite
- * conference talk. Watching that talk blew my mind as I left the military many years ago and started penetration testing. Truly inspirational!
- * studebacon - Without stumbling across your Tastic refresh, I may not have invested the time building this out.
- * Daniel Smith - For laying so much of the groundwork that has made all of these awesome tools possible.
- *
- * Checkout the following links; they're worth your time:
- * https://bishopfox.com/blog/tastic-rfid-thief-silent-deadly
- * https://github.com/studebacon/TasticCodeUpdate (Wiegand processing code in Doppelgänger originates from this repo)
- * https://www.pagemac.com/projects/rfid/hid_data_formats
  */
 
 ///////////////////////////////////////////////////////
@@ -76,9 +51,6 @@ volatile unsigned long cardChunk2 = 0;
 // WiFiManager Configurations
 const char *defaultPASS = "UndertheRadar";
 #define prefixSSID "doppelgänger_"
-
-// #define defaultSSID "doppelgänger"
-// #define defaultPASS "UndertheRadar"
 #define portalTimeout 120 // Device reboots after X seconds if no configuration is entered
 #define connectTimeout 30 // Enters configuration mode if device can't find previously stored AP in X seconds
 #define LED_ON HIGH
