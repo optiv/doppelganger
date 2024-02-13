@@ -38,7 +38,7 @@ The Doppelgänger firmware is designed to work with either the IoT Redboard or t
 
 The following features are built into the firmware:
 
-* Wireless Configuration Manager ***(Default SSID: doppelgänger, Password: UndertheRadar)***
+* Wireless Configuration Manager ***(Default SSID: doppelgänger_XXXX, Password: UndertheRadar)***
 * mDNS Server: **http://rfid.local/**
 * Optional E-mail / Text Notifications
 * Web interface for viewing, sorting and downloading card data
@@ -49,7 +49,7 @@ The following features are built into the firmware:
 For setup purposes, I recommend using a computer to configure the device initially. Once the Doppelgänger has been configured to connect to a mobile device, there should be no need to use a computer again.
 
 1) Apply power to the reader and ESP-32.
-2) If the blue LED is illuminated, the device is in configuration mode. Connect to the **doppelgänger** network using the default password **UndertheRadar**.
+2) If the blue LED is illuminated, the device is in configuration mode. Connect to the **doppelgänger_XXXX** network using the default password **UndertheRadar**.
 3) The Captive Portal should automatically launch. If it does not, navigate to http://192.168.4.1/. 
 
 **Captive Portal Menu Options:**
@@ -76,6 +76,7 @@ Before selecting **Configure WiFi** in the captive portal, turn on your mobile d
   * Not tested: The process will be similar to the iPhone instructions. 
 
 ## Setting Up E-mail Notifications 
+
 * If you want to enable e-mail notifications, navigate to the Notifications page on the Doppelgänger web application. Enter your SMTP credentials and recipient information. This data is stored on the internal flash storage and is not accessible from the SD Card/web application. The notification configuration can be wiped by using Doppelgänger's reset functionality from within the web application. 
 
 * To send a text notification follow this schema.
@@ -160,7 +161,7 @@ The **config.json** file within the **data** directory will be written to flash 
 
 Only attempt to build this device if you know what you're doing. The developer is not responsible for damaged equipment/property, personal injury, or death that may result in exposure to high voltage. Doppelgänger has been tested on the following devices, but it should work on any reader that outputs a Weigand signal:
 * HID MaxiProx 5375AGN00
-* HID ICLASS SE R90 940NTTEK00000 (this model has legacy support enabled)
+* HID ICLASS SE R90 940NTNTEK00000 (this model has legacy support enabled)
 * HID Indala ASR-620++ (No Longer Manufactured by HID)
 
 ### Option #1: Plug-n-Play
@@ -181,7 +182,7 @@ Install using the DIY doppelgänger longrange breakout board from https://store.
 
 **Included and pre-soldered**
 * 7.5-15VDC Voltage Regulator
-* 5V to 3.3V Logic divider
+* 5V to 3.3V Voltage divider (GPIO)
 
 **Included but not pre-soldered**
 * 2 x screw terminals
