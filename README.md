@@ -1,6 +1,6 @@
 # THIS REPOSITORY HAS BEEN ARCHIVED
 
-To view the latest version of ScareCrow or to submit an issue, reference https://github.com/tweathers-sec/doppelganger.
+To view the latest version of Doppelgänger or to submit an issue, reference https://github.com/tweathers-sec/doppelganger.
 
 ![Doppelgänger Logo](https://github.com/optiv/doppelganger/blob/main/git_images/dop_logo.png)
 
